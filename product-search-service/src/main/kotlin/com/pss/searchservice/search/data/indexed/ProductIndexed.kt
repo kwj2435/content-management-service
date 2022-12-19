@@ -1,22 +1,20 @@
-package com.cms.product.data.indexed
+package com.pss.searchservice.search.data.indexed
 
-import com.cms.product.domain.Category
-import com.cms.product.domain.enums.ProductStatus
-import org.springframework.beans.factory.annotation.Value
+import com.pss.searchservice.search.domain.enums.ProductStatus
+import org.springframework.data.annotation.Id
 import org.springframework.data.elasticsearch.annotations.Document
 import org.springframework.data.elasticsearch.annotations.Field
 import org.springframework.data.elasticsearch.annotations.FieldType
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import java.time.ZonedDateTime
-import javax.persistence.Id
 
-// todo sdk로 묶어야한다.
+// todo sdk로 묶자
 @Document(indexName = "product")
 class ProductIndexed(
     @Id
     val id: Long = 0,
     val name: String,
-    val category: Category,
+    val category: CategoryIndexed,
     val status: ProductStatus,
     @Field(type = FieldType.Date)
     val salesStartedAt: ZonedDateTime? = null,
