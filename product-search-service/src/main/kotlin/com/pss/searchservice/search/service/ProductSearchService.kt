@@ -6,6 +6,7 @@ import com.pss.searchservice.search.data.search.ProductSearchCondition
 import org.springframework.context.annotation.Profile
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations
 import org.springframework.stereotype.Service
 
 interface ProductSearchService{
@@ -16,14 +17,14 @@ interface ProductSearchService{
 @Profile("!test")
 @Service
 class ProductSearchServiceImpl(
-    private val productIndexedRepository: ProductIndexedRepository
+    private val productIndexedRepository: ProductIndexedRepository,
+    private val elasticsearchOperations: ElasticsearchOperations
 ): ProductSearchService {
     override fun list(pageable: Pageable, productSearchCondition: ProductSearchCondition): Page<ProductIndexed> {
-        TODO("Not yet implemented")
+        return productIndexedRepository.findAll(pageable)
     }
 
     override fun search() {
-        TODO("Not yet implemented")
     }
 
 }
