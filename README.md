@@ -15,7 +15,7 @@ CRUD를 API를 통해 등록된 '간단한'상품 정보를 일정주기 Elastic
 ### 기술 스택
 Kotlin  
 Spring Boot 2.7.x  
-Spring Data JPA 3.0.0(latest)
+Spring Data JPA 2.6.2
 MySql 8  
 ElasticSearch 7.9.1
 Kibana 7.9.1
@@ -33,7 +33,9 @@ test. 테스트 코드 추가
 
 ### 실행
 mysql 8 설치  
-Elasticsearch 7.9.1 설치  
+Elasticsearch 7.9.1 설치
+- nori plugin 설치  
+
 Kibana 7.9.1 설치
 ```
 docker pull docker.elastic.co/elasticsearch/elasticsearch:7.9.1

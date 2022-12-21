@@ -1,0 +1,15 @@
+{
+  "analysis": {
+    "tokenizer": {
+      "my_nori_tokenizer": {
+        "type": "nori_tokenizer"
+      }
+    },
+    "analyzer": {
+      "korean": {
+        "type": "custom",
+        "tokenizer": "my_nori_tokenizer"
+      }
+    }
+  }
+}

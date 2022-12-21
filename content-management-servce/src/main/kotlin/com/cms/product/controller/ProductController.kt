@@ -2,6 +2,8 @@ package com.cms.product.controller
 
 import com.cms.common.data.ApiResponse
 import com.cms.product.data.ProductInput
+import com.cms.product.data.indexed.ProductIndexedRepository
+import com.cms.product.domain.ProductRepository
 import com.cms.product.entity.ProductEntityRepository
 import com.cms.product.service.ProductService
 import org.springframework.data.domain.Pageable
@@ -17,7 +19,9 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/product")
 class ProductController(
-    private val productService: ProductService
+    private val productService: ProductService,
+    private val productIndexedRepository: ProductIndexedRepository,
+    val productEntityRepository: ProductEntityRepository
 ) {
     @GetMapping("")
     fun list(pageable: Pageable) =
@@ -42,4 +46,10 @@ class ProductController(
     fun delete(@PathVariable("productId") productId: Long) =
         productService.delete(productId)?.let { ResponseEntity.ok().body(ApiResponse(it)) }
             ?: throw NoSuchElementException("productId : ${productId}를 찾을 수 없습니다.")
+
+    @GetMapping("test")
+    fun test() {
+        val list = productEntityRepository.findAll().map { it.indexed() }
+        val test = productIndexedRepository.saveAll(list)
+    }
 }
