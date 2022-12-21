@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/product")
 class ProductController(
-    private val productService: ProductService,
-    private val productIndexedRepository: ProductIndexedRepository,
-    val productEntityRepository: ProductEntityRepository
+    private val productService: ProductService
 ) {
     @GetMapping("")
     fun list(pageable: Pageable) =
@@ -46,10 +44,4 @@ class ProductController(
     fun delete(@PathVariable("productId") productId: Long) =
         productService.delete(productId)?.let { ResponseEntity.ok().body(ApiResponse(it)) }
             ?: throw NoSuchElementException("productId : ${productId}를 찾을 수 없습니다.")
-
-    @GetMapping("test")
-    fun test() {
-        val list = productEntityRepository.findAll().map { it.indexed() }
-        val test = productIndexedRepository.saveAll(list)
-    }
 }

@@ -13,8 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled
 @Profile("static-index-product-batch")
 class StaticIndexProductBatch(
     private val productEntityRepository: ProductEntityRepository,
-    private val productIndexedRepository: ProductIndexedRepository,
-    private val elasticsearchOperations: ElasticsearchOperations
+    private val productIndexedRepository: ProductIndexedRepository
 ) {
     @Scheduled(cron = "*/10 * * * *")
     fun run() {
