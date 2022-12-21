@@ -14,8 +14,6 @@ import org.springframework.data.elasticsearch.core.query.IndexQueryBuilder
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-// todo exception 처리
-// todo APIResponse Format 정리
 @RestController
 @RequestMapping("/product")
 class ProductController(

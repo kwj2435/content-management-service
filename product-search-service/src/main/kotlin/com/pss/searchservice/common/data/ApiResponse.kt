@@ -1,5 +1,13 @@
 package com.pss.searchservice.common.data
 
-data class ApiResponse(
-    val data: Any
-)
+import org.springframework.http.HttpStatus
+
+class ApiResponse<T>(
+    val code: Int,
+    val status: HttpStatus,
+    val result: T
+) {
+    constructor(result: T): this(
+        HttpStatus.OK.value(), HttpStatus.OK, result
+    )
+}
