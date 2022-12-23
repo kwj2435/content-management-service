@@ -11,13 +11,14 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 
 @Configuration
 @EnableElasticsearchRepositories
-class EsConfig: AbstractElasticsearchConfiguration() {
-
+class EsConfig(
+    @Value("\${elasticsearch.indexName}")
+    val indexName: String,
     @Value("\${elasticsearch.host}")
-    private val esHost: String? = null
+    private val esHost: String? = null,
     @Value("\${elasticsearch.port}")
-    private val esPort: String? = null
-
+    private val esPort: String? = null,
+): AbstractElasticsearchConfiguration() {
     @Bean
     override fun elasticsearchClient(): RestHighLevelClient {
         val clientConfiguration = ClientConfiguration.builder()

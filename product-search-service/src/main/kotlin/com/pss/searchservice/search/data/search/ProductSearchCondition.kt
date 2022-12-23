@@ -1,5 +1,8 @@
 package com.pss.searchservice.search.data.search
 
+import com.pss.searchservice.search.domain.enums.ProductStatus
+
 data class ProductSearchCondition(
-    val tem: String? = null
+    val categoryId: Long? = null,
+    val status: ProductStatus? = null
 )
