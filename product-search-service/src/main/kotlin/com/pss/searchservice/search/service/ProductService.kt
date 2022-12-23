@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 
 interface ProductService{
-    fun list(pageable: Pageable, productSearchCondition: ProductSearchCondition): Page<ProductIndexed>
+    fun list(productSearchCondition: ProductSearchCondition, pageable: Pageable): Page<ProductIndexed>
     fun search(q: String, pageable: Pageable): Page<ProductIndexed>
     fun autoComplete(q: String): List<ProductIndexed>?
 }
@@ -24,8 +24,8 @@ interface ProductService{
 class ProductServiceImpl(
     private val productSearchService: ProductSearchService
 ): ProductService {
-    override fun list(pageable: Pageable, productSearchCondition: ProductSearchCondition): Page<ProductIndexed> {
-        return productSearchService.search(productSearchCondition, pageable)
+    override fun list(condition: ProductSearchCondition, pageable: Pageable): Page<ProductIndexed> {
+        return productSearchService.search(condition.search, pageable)
     }
 
     override fun search(q: String, pageable: Pageable): Page<ProductIndexed> {
@@ -41,7 +41,7 @@ class ProductServiceImpl(
 @Service
 class ProductServiceMock: ProductService {
     // todo Test용 객체 생성 클래스 별도 생성
-    override fun list(pageable: Pageable, productSearchCondition: ProductSearchCondition): Page<ProductIndexed> {
+    override fun list(productSearchCondition: ProductSearchCondition, pageable: Pageable): Page<ProductIndexed> {
         return PageImpl(
             listOf(
                 ProductIndexed(

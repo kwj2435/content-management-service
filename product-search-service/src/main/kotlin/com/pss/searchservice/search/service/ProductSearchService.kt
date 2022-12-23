@@ -4,6 +4,7 @@ import com.pss.searchservice.config.EsConfig
 import com.pss.searchservice.search.data.indexed.ProductIndexed
 import com.pss.searchservice.search.data.indexed.ProductIndexedRepository
 import com.pss.searchservice.search.data.search.ProductSearchCondition
+import com.pss.searchservice.search.data.search.ProductWhereCondition
 import org.elasticsearch.index.query.QueryBuilders
 import org.elasticsearch.index.query.QueryBuilders.*
 import org.springframework.context.annotation.Profile
@@ -16,7 +17,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.stereotype.Service
 
 interface ProductSearchService {
-    fun search(search: ProductSearchCondition, pageable: Pageable): Page<ProductIndexed>
+    fun search(search: ProductWhereCondition, pageable: Pageable): Page<ProductIndexed>
     fun search(q: String, pageable: Pageable): Page<ProductIndexed>
     fun autoComplete(q: String): List<ProductIndexed>?
 }
@@ -27,7 +28,7 @@ class ProductSearchServiceImpl(
     private val esConfig: EsConfig,
     private val elasticsearchOperations: ElasticsearchOperations
 ): ProductSearchService {
-    override fun search(search: ProductSearchCondition, pageable: Pageable): Page<ProductIndexed> {
+    override fun search(search: ProductWhereCondition, pageable: Pageable): Page<ProductIndexed> {
         val query = NativeSearchQueryBuilder().withQuery(
             boolQuery().must(
                 search.categoryId?.let { matchQuery("category.id", search.categoryId)} ?: matchAllQuery()
@@ -75,7 +76,7 @@ class ProductSearchServiceImpl(
 @Profile("test")
 @Service
 class ProductSearchServiceMock(): ProductSearchService {
-    override fun search(search: ProductSearchCondition, pageable: Pageable): Page<ProductIndexed> {
+    override fun search(search: ProductWhereCondition, pageable: Pageable): Page<ProductIndexed> {
         TODO("Not yet implemented")
     }
 
