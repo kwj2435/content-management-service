@@ -8,7 +8,7 @@
 상세 내용은 Overview 참조
 
 ***
-### Main Features
+### Features
 1. DB와 ElasticSearch간의 데이터 동기화 (배치 색인)
 2. ElasticSearch Query를 통한 상품 조건별 필터 리스팅
 3. Nori Tokenizer를 형태소 분석 및 검색 구현
