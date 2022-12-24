@@ -35,7 +35,7 @@ Gradle
 
 프로젝트의 구성은 Search-Service (커머스 API 역할)과 CMS(Content-Management-Service)로 구성되어 있다.  
 #####
-####**CMS**  
+#### **CMS**  
 - CMS 서버는 상품 정보 생성, 수정, 삭제 등의 전반적인 관리를 담당한다. CMS에서 생성된 정보는 DB에 적재된다.  
 
 ####
