@@ -7,10 +7,12 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
+@ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
 class ProductSearchControllerTest(
@@ -23,7 +25,7 @@ class ProductSearchControllerTest(
 
     @Test
     @DisplayName("상품 리스트 조회 성공 200 OK")
-    fun listSuccessTest() {
+    fun `상품 리스트 조회 성공시 200 OK`() {
         mockMvc.perform(
             get(baseUrl)
                 .param("page", 0.toString())
@@ -33,7 +35,7 @@ class ProductSearchControllerTest(
 
     @Test
     @DisplayName("상품 검색 성공 200 OK")
-    fun searchSuccessTest() {
+    fun `상품 검색 성공시 200 OK`() {
         mockMvc.perform(
             get("$baseUrl/search")
                 .param("page", 0.toString())
@@ -44,7 +46,7 @@ class ProductSearchControllerTest(
 
     @Test
     @DisplayName("자동 완성 성공 200 OK")
-    fun autoCompleteSuccessTest() {
+    fun `자동완성 조회 성공시 200 OK`() {
         mockMvc.perform(
             get("$baseUrl/auto-complete")
                 .param("q", "test")
@@ -52,7 +54,7 @@ class ProductSearchControllerTest(
     }
     @Test
     @DisplayName("자동 완성 204 No Content")
-    fun autoCompleteNoContentTest() {
+    fun `자동완성 조회 결과 null 일 경우 204 No Content`() {
         every {productSearchService.autoComplete(any())} returns null
 
         mockMvc.perform(

@@ -40,9 +40,8 @@ class ProductServiceImpl(
 @Profile("test")
 @Service
 class ProductServiceMock: ProductService {
-    // todo Test용 객체 생성 클래스 별도 생성
-    override fun list(productSearchCondition: ProductSearchCondition, pageable: Pageable): Page<ProductIndexed> {
-        return PageImpl(
+    companion object {
+        fun getProductIndexedPageMock() = PageImpl(
             listOf(
                 ProductIndexed(
                     id = 0,
@@ -57,14 +56,23 @@ class ProductServiceMock: ProductService {
                 )
             )
         )
-    }
 
-    override fun search(q: String, pageable: Pageable): Page<ProductIndexed> {
-        TODO("Not yet implemented")
+        fun getProductIndexedListMock() = listOf(
+            ProductIndexed(
+                id = 0,
+                name = "test",
+                category = CategoryIndexed(
+                    id = 1,
+                    categoryName = "testCategory",
+                ),
+                status = ProductStatus.SALE,
+                createdAt = ZonedDateTime.now(),
+                updatedAt = ZonedDateTime.now()
+            )
+        )
     }
-
-    override fun autoComplete(q: String): List<ProductIndexed>? {
-        TODO("Not yet implemented")
-    }
+    override fun list(productSearchCondition: ProductSearchCondition, pageable: Pageable) = getProductIndexedPageMock()
+    override fun search(q: String, pageable: Pageable) = getProductIndexedPageMock()
+    override fun autoComplete(q: String) = getProductIndexedListMock()
 
 }
