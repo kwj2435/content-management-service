@@ -1,21 +1,23 @@
 package com.pss.searchservice.search.controller
 
 import com.pss.searchservice.search.service.ProductSearchService
+import io.mockk.every
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest
 @AutoConfigureMockMvc
-internal class ProductSearchControllerTest(
+class ProductSearchControllerTest(
     @Autowired
-    val mockMvc: MockMvc
+    val mockMvc: MockMvc,
+    @Autowired
+    val productSearchService: ProductSearchService
 ) {
     private val baseUrl = "/product"
 
@@ -30,20 +32,32 @@ internal class ProductSearchControllerTest(
     }
 
     @Test
-    @DisplayName("상품 리스트 없을 경우 204 NoContent")
-    fun listNoContentTest() {
-
-    }
-
-    @Test
     @DisplayName("상품 검색 성공 200 OK")
     fun searchSuccessTest() {
-
+        mockMvc.perform(
+            get("$baseUrl/search")
+                .param("page", 0.toString())
+                .param("size", 1.toString())
+                .param("q", "test")
+        ).andExpect(status().isOk)
     }
 
     @Test
-    @DisplayName("상품 검색 성공 204 NoContent")
-    fun searchNoContent() {
+    @DisplayName("자동 완성 성공 200 OK")
+    fun autoCompleteSuccessTest() {
+        mockMvc.perform(
+            get("$baseUrl/auto-complete")
+                .param("q", "test")
+        ).andExpect(status().isOk)
+    }
+    @Test
+    @DisplayName("자동 완성 204 No Content")
+    fun autoCompleteNoContentTest() {
+        every {productSearchService.autoComplete(any())} returns null
 
+        mockMvc.perform(
+            get("$baseUrl/auto-complete")
+                .param("q", "test")
+        ).andExpect(status().isNoContent)
     }
 }
